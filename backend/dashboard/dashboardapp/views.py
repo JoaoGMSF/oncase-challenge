@@ -11,27 +11,11 @@ class UserView(APIView):
         serializer = UserSerializer(users_list, many = True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def post(self, request):
-        payload = request.data
-        # def checkInput():
-        #     if("first_name" not in payload ):
-        
-        print(payload)
+    def post(self, request):      
+        serializer = UserSerializer(data=request.data)
 
-        # fazer a validação dos dados que me são enviados -> first name -> last name -> participation]
-
-        ##Salvar no banco
-
-        # user = User(
-        #     first_name = payload.first_name,
-        #     last_name = payload.last_name,
-        #     participation = payload.participation
-        # )
-
-        # user.save()
-        # return Response(status=status.HTTP_created)
-        return Response(status=status.HTTP_201_CREATED)
-
-
-    # def delete():
-    #     pass
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
