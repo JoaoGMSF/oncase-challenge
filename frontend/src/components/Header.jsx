@@ -4,7 +4,7 @@ import Input from "./Input"
 const Header = (props) => {
   return (
     <header className="bg-blue-400 py-10">
-      <form onSubmit={props.onSubmit} className="flex justify-center container space-x-4 mx-auto">
+      <form onSubmit={props.onSubmit} className="flex flex-wrap justify-center container space-x-4 gap-y-4 mx-auto">
         <Input name="firstName" placeholder="First Name" value={props.value.firstName} onChange={props.onChange} />
         <Input name="lastName" placeholder="Last Name" value={props.value.lastName} onChange={props.onChange} />
         <Input name="participation" placeholder="Participation" value={props.value.participation} onChange={props.onChange} />

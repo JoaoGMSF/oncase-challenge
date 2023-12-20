@@ -5,7 +5,6 @@ import DonutChart from "../components/DonutChart";
 import { UserService } from '../services/UserService';
 
 const Home = () =>{
-    const [newUser, setNewUser] = useState();
     const [inputUser, setInputUser] = useState({
         firstName: '',
         lastName: '',
@@ -21,8 +20,7 @@ const Home = () =>{
         UserService.postUser(inputUser)
             .then(() => {
                 console.log('User cadastrado com sucesso!');
-                setNewUser(true);
-
+                getUser();
             })
             .catch(error => {
                 if (error.response) {
@@ -67,9 +65,8 @@ const Home = () =>{
     };
 
     const handleSubmit = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         postUser();
-        setNewUser(false);
         setInputUser(
             {
                 firstName: '',
@@ -83,12 +80,6 @@ const Home = () =>{
         getUser();
       }, []);
     
-    useEffect(() => {
-        if (newUser) {
-            getUser();
-        }
-    }, [newUser]);
-
     return (
         <>
         <Header onSubmit={handleSubmit} onChange={handleChange} value={inputUser}></Header>
@@ -96,7 +87,7 @@ const Home = () =>{
             <h1 className="text-7xl font-sans">Data</h1>
             <p className="text-3xl mt-2">Enter your first name, last name and participation, then press send</p>
         </div>
-        <div className="flex mt-3">
+        <div className="flex flex-wrap mt-3">
             <div className="flex-1">
                 <Table data={user} />
             </div>
