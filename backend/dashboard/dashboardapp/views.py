@@ -13,10 +13,10 @@ class UserView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request):
-        post_serializer = UserSerializer(data=request.data)
-        if post_serializer.is_valid():
-            validated_data = request.data
-            validated_data['percentage'] = calculate_percentage(request.data['participation'])
+        post_serializer = UserSerializer(data=request.data, partial=True)
+        if post_serializer.is_valid(raise_exception=True):
+            validated_data = post_serializer.validated_data
+            validated_data['percentage'] = calculate_percentage(validated_data['participation'])
             user = post_serializer.create(validated_data)
             return Response(post_serializer.data, status=status.HTTP_201_CREATED)
         else:

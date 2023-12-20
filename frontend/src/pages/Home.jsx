@@ -1,19 +1,28 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from '../components/Header';
 import Table from "../components/Table";
+import DonutChart from "../components/DonutChart";
 import { UserService } from '../services/UserService';
 
 const Home = () =>{
-    const [user, setUser] = useState({
+    const [newUser, setNewUser] = useState();
+    const [inputUser, setInputUser] = useState({
         firstName: '',
         lastName: '',
         participation: '',
       });
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        participation: -1,
+      });
     
     async function postUser() {
-        UserService.postUser(user)
+        UserService.postUser(inputUser)
             .then(() => {
                 console.log('User cadastrado com sucesso!');
+                setNewUser(true);
+
             })
             .catch(error => {
                 if (error.response) {
@@ -26,27 +35,71 @@ const Home = () =>{
             });
     }
 
+    async function getUser(){
+        UserService.getUser()
+        .then(response => {
+          const { data } = response;
+          const allUsers = data.map(tempUser => ({
+            id: tempUser.id,
+            firstName: tempUser.firstName,
+            lastName: tempUser.lastName,
+            participation: tempUser.participation,
+            percentage: tempUser.percentage
+          }));
+          setUser(allUsers);
+        })
+        .catch(error => {
+          if (error.response) {
+            console.error('Response error', error.response.status);
+          } else if (error.request) {
+            console.error('Request error', error.request);
+          } else {
+            console.error('Error', error.message);
+          }
+        });
+    }
+
     const handleChange = (e) => {
-        setUser({
-            ...user,
+        setInputUser({
+            ...inputUser,
             [e.target.name]: e.target.value,
         });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         postUser();
+        setNewUser(false);
+        setInputUser(
+            {
+                firstName: '',
+                lastName: '',
+                participation: '',
+            }
+        )
     };
 
-    const rows = [
-        { id: 1, col1: 'Hello', col2: 'World' , col3: 20},
-        { id: 2, col1: 'DataGridPro', col2: 'is Awesome', col3: 30 },
-        { id: 3, col1: 'MUI', col2: 'is Amazing', col3:50 },
-      ];
+    useEffect(() => {
+        getUser();
+      }, []);
+    
+    useEffect(() => {
+        if (newUser) {
+            getUser();
+        }
+    }, [newUser]);
 
     return (
         <>
-        <Header onSubmit={handleSubmit} onChange={handleChange} value={user}></Header>
+        <Header onSubmit={handleSubmit} onChange={handleChange} value={inputUser}></Header>
+        <div className="flex">
+            <div className="flex-1">
+                <Table data={user} />
+            </div>
+            <div className="flex-1">
+                <DonutChart data={user}/>
+            </div>
+        </div>
         </>
     );
 }

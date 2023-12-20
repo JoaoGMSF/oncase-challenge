@@ -1,12 +1,9 @@
 import React from 'react';
+import Rows from './Rows';
 
-const Table = () => {
+const Table = (props) => {
   // Dados de exemplo
-  const dados = [
-    { id: 1, nome: 'Item 1', preco: 10, },
-    { id: 2, nome: 'Item 2', preco: 20, },
-    { id: 3, nome: 'Item 3', preco: 30, },
-  ];
+  const data = props.data;
 
   return (
     <div className="flex justify-center items-center mt-10">
@@ -14,20 +11,14 @@ const Table = () => {
         <thead>
           <tr>
             <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">First Name</th>
-            <th className="py-2 px-4 border-b">Last Name</th>            
-            <th className="py-2 px-4 border-b">Participation</th>
-            <th className="py-2 px-4 border-b">Percentage</th>
+            <th className="py-2 px-4 border-b text-center">First Name</th>
+            <th className="py-2 px-4 border-b text-center">Last Name</th>            
+            <th className="py-2 px-4 border-b text-center">Participation</th>
+            <th className="py-2 px-4 border-b text-center">Percentage</th>
           </tr>
         </thead>
         <tbody>
-          {dados.map((item) => (
-            <tr key={item.id}>
-              <td className="py-2 px-4 border-b">{item.id}</td>
-              <td className="py-2 px-4 border-b">{item.nome}</td>
-              <td className="py-2 px-4 border-b">{item.preco}</td>
-            </tr>
-          ))}
+          {data.length? <Rows data={data}/> : null}
         </tbody>
       </table>
     </div>

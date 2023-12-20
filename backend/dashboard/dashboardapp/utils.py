@@ -9,5 +9,5 @@ def calculate_percentage(new_participation):
         percentage = (participation / total_participation) * 100
     else:
         percentage = 100
-    User.objects.update(percentage=models.F('participation') / total_participation * 100)
+    User.objects.update(percentage=(models.F('participation') / total_participation * 100))
     return percentage
