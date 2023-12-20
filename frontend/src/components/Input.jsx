@@ -24,6 +24,7 @@ const Input = (props) => {
             className="border p-2 text-black"
             placeholder={props.placeholder}
             spellCheck="false"
+            autoComplete="off"
             />
         </div>
     )
