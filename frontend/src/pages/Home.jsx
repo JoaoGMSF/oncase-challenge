@@ -92,7 +92,11 @@ const Home = () =>{
     return (
         <>
         <Header onSubmit={handleSubmit} onChange={handleChange} value={inputUser}></Header>
-        <div className="flex">
+        <div className="text-center mt-9">
+            <h1 className="text-7xl font-sans">Data</h1>
+            <p className="text-3xl mt-2">Enter your first name, last name and participation, then press send</p>
+        </div>
+        <div className="flex mt-3">
             <div className="flex-1">
                 <Table data={user} />
             </div>
