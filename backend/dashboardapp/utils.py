@@ -20,7 +20,12 @@ class ParticipationManager:
     @staticmethod
     def update_percentage(new_participation, pk):
         participation = float(new_participation)
-        total_participation = (SumParticipations.objects.order_by('id').first().sumParticipations) - (User.objects.filter(id=pk).first().participation)
+        user = User.objects.get(id=pk)
+        total_participation = SumParticipations.objects.order_by('id').first().sumParticipations
+
+        # Subtract the old participation value
+        total_participation -= user.participation
+
         if total_participation:
             total_participation += participation
             percentage = (participation / total_participation) * 100
@@ -29,9 +34,11 @@ class ParticipationManager:
             percentage = 100
             total_participation = participation
             SumParticipations.objects.filter(id=1).update(sumParticipations=total_participation)
-        User.objects.exclude(id=pk).update(percentage=(models.F('participation') / total_participation * 100))
-        return percentage
 
+        # Update percentages for all users
+        User.objects.update(percentage=(models.F('participation') / total_participation * 100))
+        return percentage
+    
     @staticmethod
     def delete_percentage(pk):
         total_participation = (SumParticipations.objects.order_by('id').first().sumParticipations) - (User.objects.filter(id=pk).first().participation)
