@@ -23,5 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             if not type(data['participation'])==float:
                 raise serializers.ValidationError("O campo 'participation' não é float.")
+            if data['participation'] <= 0:
+                raise serializers.ValidationError("0 não é permitido como participation")
         return data
     

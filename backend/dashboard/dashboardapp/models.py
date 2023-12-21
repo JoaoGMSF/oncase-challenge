@@ -10,3 +10,9 @@ class User(models.Model):
     class Meta:
         db_table="user"
 
+class SumParticipations(models.Model):
+    sumParticipations = models.FloatField()
+
+    class Meta:
+        db_table="sum_participations"
+
