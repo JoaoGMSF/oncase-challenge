@@ -57,6 +57,23 @@ const Home = () =>{
         });
     }
 
+    async function putUser(userData) {
+        UserService.putUser(userData)
+            .then(() => {
+                console.log('User atualizado com sucesso!');
+                getUser();
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error('Response error', error.response.status);
+                } else if (error.request) {
+                    console.error('Request error', error.request);
+                } else {
+                    console.error('Error', error.message);
+                }
+            });
+    }
+
     const handleChange = (e) => {
         setInputUser({
             ...inputUser,
@@ -76,6 +93,12 @@ const Home = () =>{
         )
     };
 
+    const handleUpdate = (e, userData) => {
+        e.preventDefault();
+        console.log("userData: ",userData)
+        putUser(userData)
+    }
+
     useEffect(() => {
         getUser();
       }, []);
@@ -89,7 +112,7 @@ const Home = () =>{
         </div>
         <div className="flex flex-wrap mt-3">
             <div className="flex-1">
-                <Table data={user} />
+                <Table onBlur={handleUpdate} data={user} />
             </div>
             <div className="flex-1">
                 <DonutChart data={user}/>

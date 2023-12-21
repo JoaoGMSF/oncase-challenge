@@ -15,4 +15,12 @@ export class UserService {
       console.log(response);
       return response;
     }
+    static async putUser(updatedUserData) {
+      const response = await apiBack.put(`/${updatedUserData.id}`, updatedUserData, {
+        validateStatus: (status) => [200].includes(status),
+      });
+      console.log(response);
+      return response;
+    }
+  
 }

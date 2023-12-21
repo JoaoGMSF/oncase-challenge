@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User
 from .serializers import UserSerializer
-from .utils import calculate_percentage
+from .utils import calculate_percentage, update_percentage
 
 # Create your views here.
 class UserView(APIView):
@@ -21,3 +21,15 @@ class UserView(APIView):
             return Response(post_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        user = User.objects.get(pk=pk)
+        put_serializer = UserSerializer(user, data=request.data)
+
+        if put_serializer.is_valid(raise_exception=True):
+            validated_data = put_serializer.validated_data
+            validated_data['percentage'] = update_percentage(validated_data['participation'], pk)
+            put_serializer.save()
+            return Response(put_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(put_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

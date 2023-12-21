@@ -6,7 +6,7 @@ const Table = (props) => {
   const data = props.data;
 
   return (
-    <div className="flex justify-center items-center mt-10">
+    <div className="flex justify-center items-center my-10">
       <table className="bg-white border border-gray-200 text-lg">
         <thead>
           <tr>
@@ -18,7 +18,7 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {data.length? <Rows data={data}/> : null}
+          {data.length? <Rows data={data} onBlur={props.onBlur}/> : null}
         </tbody>
       </table>
     </div>

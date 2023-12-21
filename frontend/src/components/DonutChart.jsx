@@ -7,7 +7,13 @@ const DonutChart = (props) =>{
     let labels = null;
     const data = props.data;
     
+
+
     if (data.length) {
+        data.sort((a,b)=>{
+            return (a.id - b.id)
+          });
+      
         seriesValue = data.map((item) => {
             return item.participation;
         });
@@ -20,8 +26,6 @@ const DonutChart = (props) =>{
         labels = [];
     }
     
-
-
     let state = {
         options: {
             seriesValue,
@@ -66,7 +70,7 @@ const DonutChart = (props) =>{
       }
 
     return (
-        <div className="donut mt-10 flex justify-center">
+        <div className="donut my-10 flex justify-center">
             <Chart options={state.options} series={state.series} type="donut" width="600" />
       </div>
     )
