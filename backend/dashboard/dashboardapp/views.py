@@ -33,3 +33,13 @@ class UserView(APIView):
             return Response(put_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(put_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self,request ,pk):
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    

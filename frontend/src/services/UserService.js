@@ -22,5 +22,12 @@ export class UserService {
       console.log(response);
       return response;
     }
+    static async deleteUser(userId) {
+      const response = await apiBack.delete(`/${userId}`, {
+        validateStatus: (status) => [204].includes(status),
+      });
+      console.log(response);
+      return response;
+    }
   
 }
