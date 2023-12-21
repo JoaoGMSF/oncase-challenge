@@ -7,8 +7,6 @@ const DonutChart = (props) =>{
     let labels = null;
     const data = props.data;
     
-
-
     if (data.length) {
         data.sort((a,b)=>{
             return (a.id - b.id)

@@ -3,6 +3,10 @@ import Header from '../components/Header';
 import Table from "../components/Table";
 import DonutChart from "../components/DonutChart";
 import { UserService } from '../services/UserService';
+import ErrorHandling from "../services/ErrorHandling";
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () =>{
     const [inputUser, setInputUser] = useState({
@@ -18,19 +22,41 @@ const Home = () =>{
     
     async function postUser() {
         UserService.postUser(inputUser)
-            .then(() => {
-                console.log('User cadastrado com sucesso!');
-                getUser();
-            })
-            .catch(error => {
-                if (error.response) {
-                    console.error('Response error', error.response.status);
-                } else if (error.request) {
-                    console.error('Request error', error.request);
-                } else {
-                    console.error('Error', error.message);
-                }
-            });
+        .then(() => {
+            console.log('User cadastrado com sucesso!');
+            getUser();
+            toast.success('User adicionado com sucesso!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+        })
+        .catch(error => {
+            if (error.response) {
+                const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
+                console.log("error message: ", errorMessage)
+                toast.error(errorMessage[0], {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                console.error('Response error', error.response.status);
+            } else if (error.request) {
+                console.error('Request error', error.request);
+            } else {
+                console.error('Error', error.message);
+            }
+        });
     }
 
     async function getUser(){
@@ -48,6 +74,18 @@ const Home = () =>{
         })
         .catch(error => {
           if (error.response) {
+            const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
+            console.log("error message: ", errorMessage)
+            toast.error(errorMessage[0], {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
             console.error('Response error', error.response.status);
           } else if (error.request) {
             console.error('Request error', error.request);
@@ -59,36 +97,80 @@ const Home = () =>{
 
     async function putUser(userData) {
         UserService.putUser(userData)
-            .then(() => {
-                console.log('User atualizado com sucesso!');
-                getUser();
-            })
-            .catch(error => {
-                if (error.response) {
-                    console.error('Response error', error.response.status);
-                } else if (error.request) {
-                    console.error('Request error', error.request);
-                } else {
-                    console.error('Error', error.message);
-                }
-            });
+        .then(() => {
+            console.log('User atualizado com sucesso!');
+            getUser();
+            toast.success('User atualizado com sucesso!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+        })
+        .catch(error => {
+            if (error.response) {
+                const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
+                console.log("error message: ", errorMessage)
+                toast.error(errorMessage[0], {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                console.error('Response error', error.response.status);
+            } else if (error.request) {
+                console.error('Request error', error.request);
+            } else {
+                console.error('Error', error.message);
+            }
+        });
     }
 
     async function deleteUser(userId) {
         UserService.deleteUser(userId)
-            .then(() => {
-                console.log('User atualizado com sucesso!');
-                getUser();
-            })
-            .catch(error => {
-                if (error.response) {
-                    console.error('Response error', error.response.status);
-                } else if (error.request) {
-                    console.error('Request error', error.request);
-                } else {
-                    console.error('Error', error.message);
-                }
-            });
+        .then(() => {
+            console.log('User deletado com sucesso!');
+            getUser();
+            toast.success('User deletado com sucesso!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+        })
+        .catch(error => {
+            if (error.response) {
+                const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
+                console.log("error message: ", errorMessage)
+                toast.error(errorMessage[0], {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                console.error('Response error', error.response.status);
+            } else if (error.request) {
+                console.error('Request error', error.request);
+            } else {
+                console.error('Error', error.message);
+            }
+        });
     }
 
     const handleChange = (e) => {
@@ -119,6 +201,19 @@ const Home = () =>{
     
     return (
         <>
+        <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+        />
+
         <Header onSubmit={handleSubmit} onChange={handleChange} value={inputUser}></Header>
         <div className="text-center mt-9">
             <h1 className="text-7xl font-sans">Data</h1>

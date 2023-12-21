@@ -9,21 +9,20 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if 'firstName' not in data:
-            raise serializers.ValidationError("O campo 'firstName' é obrigatório.")
+            raise serializers.ValidationError("The 'firstName' field is required.")
         else:
             if not data['firstName'].isalpha():
-                raise serializers.ValidationError("O campo 'firstName' não é alpha.")
+                raise serializers.ValidationError("The 'firstName' field is not alpha.")
         if 'lastName' not in data:
-            raise serializers.ValidationError("O campo 'lastName' é obrigatório.")
+            raise serializers.ValidationError("The 'lastName' field is required.")
         else:
             if not data['lastName'].isalpha():
-                raise serializers.ValidationError("O campo 'lastName' não é alpha.")
+                raise serializers.ValidationError("The 'lastName' field is not alpha.")
         if 'participation' not in data:
-            raise serializers.ValidationError("O campo 'participation' é obrigatório.")
+            raise serializers.ValidationError("The 'participation' field is required.")
         else:
-            if not type(data['participation'])==float:
-                raise serializers.ValidationError("O campo 'participation' não é float.")
+            if not type(data['participation']) == float:
+                raise serializers.ValidationError("The 'participation' field is not a number.")
             if data['participation'] <= 0:
-                raise serializers.ValidationError("0 não é permitido como participation")
+                raise serializers.ValidationError("0 participation is not allowed.")
         return data
-    
