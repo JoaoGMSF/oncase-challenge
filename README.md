@@ -47,7 +47,7 @@ docker run --name oncase-db -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=oncase-db
 Para criar um virtual enviroment, e ativa-lo em seguide, execute o seguinte comando:
 
 ```bash
-python -m venv oncase-env  # criar o virtual enviroment
+python3 -m venv oncase-env  # criar o virtual enviroment
 source oncase-env/bin/activate  # ativar o virtual environment (Linux/macOS)
 # or
 oncase-env\Scripts\activate  # ativar o virtual environment (Windows)
@@ -80,7 +80,7 @@ para iniciar o servidor execute:
 
 ```bash
 ## Rodando o servidor
-pythone manage.py runserver
+python3 manage.py runserver
 ```
 
 ### >Rodar os testes
@@ -111,6 +111,8 @@ npm run dev
 ```
 
 ## >Rodando os testes
+
+Em outro terminal na mesma pasta, execute:
 
 ```bash
 ## Rodando os testes
