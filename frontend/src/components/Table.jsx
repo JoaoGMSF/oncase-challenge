@@ -15,7 +15,7 @@ const Table = (props) => {
   if (data.length){
     return (
       <div className="flex justify-center my-10">
-        <table className="bg-white border border-gray-200 text-lg">
+        <table className="bg-white border border-gray-200 text-lg table-class">
           <thead>
             <tr>
               <th className="py-2 px-4  border-b text-center">First Name</th>
@@ -37,7 +37,7 @@ const Table = (props) => {
           <tbody>
             {data.map((item, index)=>{
               return <tr key={item.id}><td  className="py-2 px-2 text-center">
-                  <button onClick={(e)=>{props.onClick(e, item.id)}} className={`w-9 h-9 text-black-400 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-${colors[(index%5)]}-100`}>x</button>
+                  <button onClick={(e)=>{props.onClick(e, item.id)}} className={`delete-button w-9 h-9 text-black-400 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-${colors[(index%5)]}-100`}>x</button>
                 </td></tr>;
             })}
           </tbody>

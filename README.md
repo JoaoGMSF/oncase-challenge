@@ -110,4 +110,11 @@ npm install
 npm run dev
 ```
 
+## >Rodando os testes
+
+```bash
+## Rodando os testes
+npx cypress open
+
+```
 o App vai estar disponível em [http://localhost:5173/](http://localhost:5173/).

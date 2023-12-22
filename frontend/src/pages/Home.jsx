@@ -14,17 +14,18 @@ const Home = () =>{
         lastName: '',
         participation: '',
       });
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        participation: -1,
-      });
+    const [users, setUsers] = useState([]);
     
     async function postUser() {
         UserService.postUser(inputUser)
-        .then(() => {
+        .then(async () => {
             console.log('User cadastrado com sucesso!');
-            getUser();
+            await getUser();
+            setInputUser({
+                firstName: '',
+                lastName: '',
+                participation: '',
+            })
             toast.success('User adicionado com sucesso!', {
                 position: "top-right",
                 autoClose: 2000,
@@ -39,18 +40,20 @@ const Home = () =>{
         .catch(error => {
             if (error.response) {
                 const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
-                console.log("error message: ", errorMessage)
-                toast.error(errorMessage[0], {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    });
-                console.error('Response error', error.response.status);
+                errorMessage.forEach((err)=>{
+                    console.log("error message: ", err)
+                    toast.error(err, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+                    console.error('Response error', error.response.status);
+                })
             } else if (error.request) {
                 console.error('Request error', error.request);
             } else {
@@ -70,23 +73,25 @@ const Home = () =>{
             participation: tempUser.participation,
             percentage: tempUser.percentage
           }));
-          setUser(allUsers);
+          setUsers(allUsers);
         })
         .catch(error => {
           if (error.response) {
             const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
-            console.log("error message: ", errorMessage)
-            toast.error(errorMessage[0], {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                });
-            console.error('Response error', error.response.status);
+            errorMessage.forEach((err)=>{
+                console.log("error message: ", err)
+                toast.error(err, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+                console.error('Response error', error.response.status);
+            })
           } else if (error.request) {
             console.error('Request error', error.request);
           } else {
@@ -96,10 +101,10 @@ const Home = () =>{
     }
 
     async function putUser(userData) {
-        UserService.putUser(userData)
-        .then(() => {
+        await UserService.putUser(userData)
+        .then(async () => {
             console.log('User atualizado com sucesso!');
-            getUser();
+            await getUser();
             toast.success('User atualizado com sucesso!', {
                 position: "top-right",
                 autoClose: 2000,
@@ -114,18 +119,20 @@ const Home = () =>{
         .catch(error => {
             if (error.response) {
                 const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
-                console.log("error message: ", errorMessage)
-                toast.error(errorMessage[0], {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    });
-                console.error('Response error', error.response.status);
+                errorMessage.forEach((err)=>{
+                    console.log("error message: ", err)
+                    toast.error(err, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+                    console.error('Response error', error.response.status);
+                })
             } else if (error.request) {
                 console.error('Request error', error.request);
             } else {
@@ -153,18 +160,20 @@ const Home = () =>{
         .catch(error => {
             if (error.response) {
                 const errorMessage = ErrorHandling.getErrorMessage(error.response.data)
-                console.log("error message: ", errorMessage)
-                toast.error(errorMessage[0], {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    });
-                console.error('Response error', error.response.status);
+                errorMessage.forEach((err)=>{
+                    console.log("error message: ", err)
+                    toast.error(err, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+                    console.error('Response error', error.response.status);
+                })
             } else if (error.request) {
                 console.error('Request error', error.request);
             } else {
@@ -174,13 +183,20 @@ const Home = () =>{
     }
 
     const handleChange = (e) => {
-        setInputUser({
+        setInputUser((inputUser)=>({
             ...inputUser,
             [e.target.name]: e.target.value,
-        });
+        }));
     };
 
+    console.log(inputUser)
+
     const handleSubmit = async (e) => {
+        setInputUser({
+            firstName: '',
+            lastName: '',
+            participation: '',
+        })
         e.preventDefault();
         postUser();
     };
@@ -222,10 +238,10 @@ const Home = () =>{
         </div>
         <div className="flex flex-wrap mt-3">
             <div className="flex-1">
-                <Table onClick={handleDelete} onBlur={handleUpdate} data={user} />
+                <Table onClick={handleDelete} onBlur={handleUpdate} data={users} />
             </div>
             <div className="flex-1">
-                <DonutChart data={user}/>
+                <DonutChart data={users}/>
             </div>
         </div>
         </>
